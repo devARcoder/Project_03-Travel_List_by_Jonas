@@ -21,10 +21,15 @@ export default function App() {
       items.map((item)=> 
         item.id === id ? {...item, packed: !item.packed} : item))
   }
+
+  function handleClearList () {
+    const confirmed = window.confirm("Are you sure you want to delete all items?")
+    if (confirmed) setItems([]);
+  }
   return <div className="app">
     <Logo/>
     <Form onAddItems={handleAddItems}/>
-    <PackingList items={items} onDeleteItem={handleDeleteItems} onToggleItems={handleToggleItems}/>
+    <PackingList items={items} onDeleteItem={handleDeleteItems} onToggleItems={handleToggleItems} onClearList={handleClearList}/>
     <Stats items={items} />
   </div>
 }
@@ -58,7 +63,7 @@ function Form({onAddItems}){
     <button>Add</button>
   </form>
 }
-function PackingList({items, onDeleteItem, onToggleItems}){
+function PackingList({items, onDeleteItem, onToggleItems, onClearList}){
   const [sortBy, setSortBy] = useState("input")
 
   let sortedItems;
@@ -83,6 +88,7 @@ function PackingList({items, onDeleteItem, onToggleItems}){
         <option value="description">Sort by Description</option>
         <option value="packed">Sort by packed status</option>
       </select>
+      <button onClick={onClearList}>Clear List</button>
      </div>
   </div>
 }
